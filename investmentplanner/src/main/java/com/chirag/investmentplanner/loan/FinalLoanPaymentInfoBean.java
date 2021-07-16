@@ -12,12 +12,13 @@ public class FinalLoanPaymentInfoBean {
 	private List<YearlyLoanPaymentInfoBean> yearlyLoanPaymentInfo;
 	private int numberOfEMI;
 	private double totalEarnedInterestOnInvestment;
-	private float incomeTaxSlab;
+	private double totalSavedIncomeTax;
+	
 	
 	protected FinalLoanPaymentInfoBean(double totalPayedAmount, double totalInterestPayedAmount,
 			List<Double> interestPayedPerEmi, List<Double> principalAmountPayedPerEmi,
 			List<YearlyLoanPaymentInfoBean> yearlyLoanPaymentInfo, int numberOfEMI,
-			double totalEarnedInterestOnInvestment, float incomeTaxSlab) {
+			double totalEarnedInterestOnInvestment, double totalSavedIncomeTax) {
 		super();
 		this.totalPayedAmount = totalPayedAmount;
 		this.totalInterestPayedAmount = totalInterestPayedAmount;
@@ -26,7 +27,7 @@ public class FinalLoanPaymentInfoBean {
 		this.yearlyLoanPaymentInfo = yearlyLoanPaymentInfo;
 		this.numberOfEMI = numberOfEMI;
 		this.totalEarnedInterestOnInvestment = totalEarnedInterestOnInvestment;
-		this.incomeTaxSlab = incomeTaxSlab;
+		this.totalSavedIncomeTax = totalSavedIncomeTax;
 	}
 
 	public double getTotalPayedAmount() {
@@ -87,27 +88,27 @@ public class FinalLoanPaymentInfoBean {
 		return sb.toString();
 	}
 	
-	public double getSavedIncomeTax() {
-		return (totalPayedAmount-totalEarnedInterestOnInvestment) * incomeTaxSlab/100;
+	/*
+	 * public double getSavedIncomeTax() { return
+	 * (totalPayedAmount-totalEarnedInterestOnInvestment) * incomeTaxSlab/100; }
+	 */
+	public double getTotalSavedIncomeTax() {
+		return totalSavedIncomeTax;
 	}
-
+	
 	public double getTotalEarnedInterestOnInvestment() {
 		return totalEarnedInterestOnInvestment;
 	}
 
-	public double getTotalBenifitOnInvestment()
-	{
-		return totalEarnedInterestOnInvestment+getSavedIncomeTax();
-	}
 	public double getDifferenceBetweenInvestmentAndLoan()
 	{
-		return getTotalBenifitOnInvestment() - totalInterestPayedAmount;
+		return totalEarnedInterestOnInvestment + totalSavedIncomeTax - totalInterestPayedAmount;
 	}
 	@Override
 	public String toString() {
 		return "FinalLoanPaymentInfoBean [totalPayedAmount=" + totalPayedAmount + ", totalInterestPayedAmount=" + totalInterestPayedAmount
-				+ ", numberOfEMI=" + numberOfEMI + ",\n Total save incometax "+getSavedIncomeTax()+" totalEarnedInterestOnInvestment="+ totalEarnedInterestOnInvestment+
-				 ",\n TotalBenifitOnInvestment = "+getTotalBenifitOnInvestment()+", DifferenceBetweenInvestmentAndLoan="+getDifferenceBetweenInvestmentAndLoan()/*+ ", interestPayedPerEmi=" + interestPayedPerEmi
+				+ ", numberOfEMI=" + numberOfEMI + ",\n Total save incometax "+totalSavedIncomeTax+" totalEarnedInterestOnInvestment="+ totalEarnedInterestOnInvestment+
+				 ", DifferenceBetweenInvestmentAndLoan="+getDifferenceBetweenInvestmentAndLoan()/*+ ", interestPayedPerEmi=" + interestPayedPerEmi
 				+ ", principalAmountPayedPerEmi=" + principalAmountPayedPerEmi*/ + ", yearlyLoanPaymentInfo="
 				+ toStringOfYearlyLoanPaymentInfo() +"]";
 	}

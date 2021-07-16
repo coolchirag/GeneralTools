@@ -13,7 +13,7 @@ public class App
     {
         //System.out.println(InvestmentCalculator.cumulativeInterestInvestment(10000, 10, 36, 12));
         //System.out.println(InvestmentCalculator.cumulativeInterestRecurringInvestment(1000, 1000, 3, 12, 12, 10, 12));
-        //System.out.println(LoanCalculator.getLoanPaymentInfo(34652, 6.8f, 3103135, 20, 6));
-    	System.out.println(LoanCalculator.getLoanPaymentInfo(8653, 7f, 100000, 20, 5.9f));
+        System.out.println(LoanCalculator.getLoanPaymentInfo(34652, 6.8f, 3103135, 20, 6));
+    	//System.out.println(LoanCalculator.getLoanPaymentInfo(8653, 7f, 90000, 20, 5.9f));
     }
 }
