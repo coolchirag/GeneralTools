@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.chirag.investmentplanner.InterestUtility;
+import com.chirag.investmentplanner.investment.InvestmentCalculator;
 
 public class LoanCalculator {
 
@@ -17,15 +18,15 @@ public class LoanCalculator {
 		List<Double> interestPayedPerEmi = new ArrayList<Double>();
 		List<Double> principalPayedPerEmi = new ArrayList<Double>();
 		List<YearlyLoanPaymentInfoBean> yearlyLoanPaymentInfoBeans = new ArrayList<YearlyLoanPaymentInfoBean>();
-		YearlyLoanPaymentInfoBean yearlyLoanPaymentInfoBean = new YearlyLoanPaymentInfoBean(incomeTaxSlab);
+		YearlyLoanPaymentInfoBean yearlyLoanPaymentInfoBean = new YearlyLoanPaymentInfoBean();
 		while(remainingLoanAmount>0)
 		{
 			totalPayedAmount = totalPayedAmount + emiAmount;
 			numOfEmi++;
 			yearlyLoanPaymentInfoBean.addTotalPayedAmount(emiAmount);
 			double payedInterestAmount = InterestUtility.calculateInterestAmount(InterestUtility.calculateInterestRate(annualInterestRate, 1), remainingLoanAmount);
-			double earnedInterestOnInvestment = InterestUtility.calculateInterestAmount(InterestUtility.calculateInterestRate(annualInterestRateForInvetment, 1), remainingLoanAmount);
-			totalEarnedInterestOnInvestment = totalEarnedInterestOnInvestment+earnedInterestOnInvestment;
+			//double earnedInterestOnInvestment = InterestUtility.calculateInterestAmount(InterestUtility.calculateInterestRate(annualInterestRateForInvetment, 1), remainingLoanAmount);
+			//totalEarnedInterestOnInvestment = totalEarnedInterestOnInvestment+earnedInterestOnInvestment;
 			remainingLoanAmount = remainingLoanAmount - (emiAmount - payedInterestAmount);
 			totalPayedInterestAmount = totalPayedInterestAmount + payedInterestAmount;
 			interestPayedPerEmi.add(payedInterestAmount);
@@ -43,9 +44,11 @@ public class LoanCalculator {
 			{
 				yearlyLoanPaymentInfoBean.setRemainigLoanAmount(remainingLoanAmount);
 				yearlyLoanPaymentInfoBeans.add(yearlyLoanPaymentInfoBean);
-				yearlyLoanPaymentInfoBean = new YearlyLoanPaymentInfoBean(incomeTaxSlab);
+				yearlyLoanPaymentInfoBean = new YearlyLoanPaymentInfoBean();
 			}
 		}
-		return new FinalLoanPaymentInfoBean(totalPayedAmount, totalPayedInterestAmount, interestPayedPerEmi, principalPayedPerEmi, yearlyLoanPaymentInfoBeans, numOfEmi, totalEarnedInterestOnInvestment);
+		//Calculate investment interest as invest loan amount as FD from first day of loan.
+		totalEarnedInterestOnInvestment = InvestmentCalculator.cumulativeInterestInvestment(loanAmount, annualInterestRateForInvetment, numOfEmi, 3).getEarnedInterestAmount();
+		return new FinalLoanPaymentInfoBean(totalPayedAmount, totalPayedInterestAmount, interestPayedPerEmi, principalPayedPerEmi, yearlyLoanPaymentInfoBeans, numOfEmi, totalEarnedInterestOnInvestment, incomeTaxSlab);
 	}
 }

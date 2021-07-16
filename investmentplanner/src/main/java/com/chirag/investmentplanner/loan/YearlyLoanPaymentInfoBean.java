@@ -6,14 +6,10 @@ public class YearlyLoanPaymentInfoBean {
 	private double totalInterestPayedAmount;
 	private double totalPayedPrincipalAmount;
 	private double remainigLoanAmount;
-	private float incomeTaxSlab;
 	
 	
 	
-	protected YearlyLoanPaymentInfoBean(float incomeTaxSlab) {
-		super();
-		this.incomeTaxSlab = incomeTaxSlab;
-	}
+	
 	public double getTotalPayedAmount() {
 		return totalPayedAmount;
 	}
@@ -40,14 +36,12 @@ public class YearlyLoanPaymentInfoBean {
 	}
 	
 	
-	public double getSavedIncomeTax() {
-		return totalPayedAmount * incomeTaxSlab/100;
-	}
+	
 	@Override
 	public String toString() {
 		return "YearlyLoanPaymentInfoBean [totalPayedAmount=" + totalPayedAmount + ", totalInterestPayedAmount="
 				+ totalInterestPayedAmount + ", totalPayedPrincipalAmount=" + totalPayedPrincipalAmount
-				+ ", remainigLoanAmount=" + remainigLoanAmount + "saved income tax "+ getSavedIncomeTax() +"]";
+				+ ", remainigLoanAmount=" + remainigLoanAmount +"]";
 	}
 	
 	
