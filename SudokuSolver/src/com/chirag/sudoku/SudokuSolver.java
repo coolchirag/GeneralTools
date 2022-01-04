@@ -25,59 +25,59 @@ public class SudokuSolver {
 	}
 
 	private static void generateSudoku() {
-		sudoku[0][0] = 3;
-		sudoku[0][2] = 6;
-		sudoku[0][3] = 7;
-		sudoku[0][4] = 2;
-		sudoku[0][5] = 9;
-		sudoku[0][6] = 8;
-		sudoku[0][8] = 4;
+		//sudoku[0][0] = 3;
+		//sudoku[0][2] = 9;
+		//sudoku[0][3] = 7;
+		//sudoku[0][4] = 2;
+		//sudoku[0][5] = 1;
+		//sudoku[0][6] = 8;
+		//sudoku[0][7] = 8;
 
-		sudoku[1][1] = 8;
-		sudoku[1][3] = 6;
-		sudoku[1][5] = 4;
-		sudoku[1][7] = 5;
+		//sudoku[1][0] = 6;
+		//sudoku[1][5] = 7;
+		//sudoku[1][5] = 4;
+		//sudoku[1][7] = 5;
 		// sudoku[1][7] = 8;
 
-		// sudoku[2][2] = 5;
-		/*
-		 * sudoku[2][7] = 4; sudoku[2][8] = 1;
-		 */
+		//sudoku[2][2] = 8;
+		//sudoku[2][6] = 4; 
+		//sudoku[2][8] = 1;
+		 
 
-		sudoku[3][0] = 1;
-		// sudoku[3][7] = 9;
-		sudoku[3][8] = 3;
+		//sudoku[3][2] = 4;
+		//sudoku[3][7] = 5;
+		//sudoku[3][8] = 3;
 		/* sudoku[3][7] = 9; */
 
-		sudoku[4][0] = 8;
-		sudoku[4][2] = 2;
-		sudoku[4][4] = 3;
-		sudoku[4][6] = 7;
-		sudoku[4][8] = 6;
+		//sudoku[4][0] = 3;
+		//sudoku[4][3] = 9;
+		//sudoku[4][8] = 1;
+		//sudoku[4][6] = 7;
+		//sudoku[4][8] = 6;
 
-		sudoku[5][0] = 5;
-		// sudoku[5][7] = 6;
-		sudoku[5][8] = 2;
-		/* sudoku[5][6] = 8; */
+		//sudoku[5][1] = 8;
+		//sudoku[5][4] = 1;
+		//sudoku[5][6] = 6;
+		//sudoku[5][6] = 8;
 
-		// sudoku[6][2] = 1;
-		/*
-		 * sudoku[6][1] = 2; sudoku[6][3] = 7;
-		 */
+		//sudoku[6][2] = 5;
+		//sudoku[6][6] = 8; 
+		//sudoku[6][3] = 7;
+		 
 
-		// sudoku[7][0] = 4;
-		sudoku[7][1] = 2;
-		sudoku[7][3] = 5;
-		sudoku[7][5] = 7;
-		sudoku[7][7] = 3;
+		//sudoku[7][3] = 6;
+		//sudoku[7][8] = 2;
+		//sudoku[7][3] = 5;
+		//sudoku[7][5] = 7;
+		//sudoku[7][7] = 3;
 
-		sudoku[8][0] = 6;
-		sudoku[8][2] = 1;
-		sudoku[8][3] = 8;
-		sudoku[8][4] = 4;
-		sudoku[8][5] = 3;
-		sudoku[8][6] = 2;
-		sudoku[8][8] = 5;
+		//sudoku[8][1] = 4;
+		//sudoku[8][3] = 2;
+		//sudoku[8][6] = 7;
+		//sudoku[8][4] = 4;
+		//sudoku[8][5] = 3;
+		//sudoku[8][6] = 2;
+		//sudoku[8][8] = 5;
 
 	}
 
@@ -86,17 +86,19 @@ public class SudokuSolver {
 		boolean guessValue = false;
 
 		do {
+			printSudoku();
 			guessValue = false;
-			System.out.println("Count : " + count++);
+			System.out.println("Count : " + count+++" : "+possibleNumbersMap);
 			String insertedData = "";
 			boolean foundUpdate = false;
 			for (int i = 0; i < size; i++) {
 				for (int j = 0; j < size; j++) {
-					if (i == 4 && j == 4) {
-						System.out.println("Beak");
-					}
 					List<Integer> possibility = new ArrayList<>();
 					int possibilityIndex = generateIndex(i, j);
+					if(count == 16 && i==1 && j == 5) {
+						printSudoku();
+						System.out.println("break");
+					}
 					if (sudoku[i][j] == 0) {
 						for (int num = 1; num < 10; num++) {
 							if (validateNumber(num, i, j)) {
@@ -113,17 +115,20 @@ public class SudokuSolver {
 							possibleNumbersMap.remove(possibilityIndex);
 							insertedData = insertedData + i + ":" + j + "=" + possibility.get(0) + ", ";
 						} else {
-
+							if(possibility.isEmpty()) {
+								System.out.println("Error : "+i+":"+j+":"+possibleNumbersMap);
+								return;
+							}
 							possibleNumbersMap.put(possibilityIndex, possibility);
 						}
 					}
 				}
 			}
-			System.out.println(insertedData);
+			System.out.println("InsertedData : "+insertedData);
 
 			if (!foundUpdate) {
 				System.out.println("------------Update not found : ");
-				guesOneValue();
+				guessOneValue();
 				guessValue = true;
 			}
 		} while (guessValue || !possibleNumbersMap.isEmpty());
@@ -131,20 +136,64 @@ public class SudokuSolver {
 		System.out.println(possibleNumbersMap);
 	}
 
-	private void guesOneValue() {
+	private void guessOneValue() {
+		int minPossibility = 9;
+		int minPossibilityI=0;
+		int minPossibilityJ=0;
+		int minPossibilityGuessIndex = 0;
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				if (sudoku[i][j] == 0) {
 					int guessIndex = generateIndex(i, j);
 					List<Integer> list = possibleNumbersMap.get(guessIndex);
 					if (list != null) {
-						sudoku[i][j] = list.get(0);
-						System.out.println(" value Guess " + i + ":" + j + "=" + list.get(0));
-						possibleNumbersMap.clear();
+						if(minPossibility>list.size()) {
+							minPossibilityI=i;
+							minPossibilityJ=j;
+							minPossibilityGuessIndex=guessIndex;
+							minPossibility=list.size();
+						}
 					}
 
 				}
 			}
+		}
+		
+		sudoku[minPossibilityI][minPossibilityJ] = possibleNumbersMap.get(minPossibilityGuessIndex).get(0);
+		System.out.println(" value Guess " + minPossibilityI + ":" + minPossibilityJ + "=" + sudoku[minPossibilityI][minPossibilityJ]);
+		removeGuessValueFromOthersPossibility(minPossibilityI, minPossibilityJ, sudoku[minPossibilityI][minPossibilityJ]);
+		possibleNumbersMap.remove(minPossibilityGuessIndex);
+		return;
+	}
+	
+	private void removeGuessValueFromOthersPossibility(int raw, int col, int guessValue) {
+		for(int i=0;i<size;i++) {
+			
+			//Check raw
+			List<Integer> possibilityInRaw = possibleNumbersMap.get(generateIndex(i, col));
+			if(possibilityInRaw!=null && possibilityInRaw.contains(guessValue)) {
+				possibilityInRaw.remove(possibilityInRaw.indexOf(guessValue));
+			}
+			
+			//Check col
+			List<Integer> possibilityInCol = possibleNumbersMap.get(generateIndex(raw, i));
+			if(possibilityInCol!=null && possibilityInCol.contains(guessValue)) {
+				possibilityInCol.remove(possibilityInCol.indexOf(guessValue));
+			}
+		}
+		
+		//Check Box
+		int rawBoxIndex = (raw / 3) * 3;
+		int colBoxIndex = (col / 3) * 3;
+		
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				List<Integer> possibilityInBox = possibleNumbersMap.get(generateIndex(rawBoxIndex + i, colBoxIndex + j));
+				if(possibilityInBox!=null && possibilityInBox.contains(guessValue)) {
+					possibilityInBox.remove(possibilityInBox.indexOf(guessValue));
+				}
+			}
+
 		}
 	}
 
