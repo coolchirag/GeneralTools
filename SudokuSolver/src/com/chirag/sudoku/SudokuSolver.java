@@ -44,9 +44,9 @@ public class SudokuSolver {
 		//raw 1 2
 		//sudoku[1][0] = 6;
 		//sudoku[1][1] = 7;
-		//sudoku[1][2] = 2;
+		sudoku[1][2] = 2;
 		//-------------------
-		//sudoku[1][3] = 3;
+		sudoku[1][3] = 3;
 		//sudoku[1][5] = 4;
 		//sudoku[1][5] = 4;
 		//-------------------
@@ -166,10 +166,7 @@ public class SudokuSolver {
 				for (int j = 0; j < size; j++) {
 					List<Integer> possibility = new ArrayList<>();
 					int possibilityIndex = generateIndex(i, j);
-					if(count == 16 && i==1 && j == 5) {
-						printSudoku();
-						System.out.println("break");
-					}
+					
 					if (sudoku[i][j] == 0) {
 						for (int num = 1; num < 10; num++) {
 							if (validateNumber(num, i, j)) {
@@ -199,10 +196,6 @@ public class SudokuSolver {
 				System.out.println("InsertedData : "+insertedData);
 			}
 			
-			if(count ==62) {
-				System.out.println("break");
-			}
-
 			if(foundUpdate) {
 				retryWithoutUpdateCount = 0;
 			} else {
