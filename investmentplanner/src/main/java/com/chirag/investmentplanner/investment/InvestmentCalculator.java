@@ -59,9 +59,10 @@ public class InvestmentCalculator {
 		double totalAmount = initialAmountInvestmentInfoBean.getMaturityAmount();
 		double totalEarnedInterestAmount = initialAmountInvestmentInfoBean.getEarnedInterestAmount();
 		System.out.println("Initial amount investment info : "+initialAmountInvestmentInfoBean);
-		for(int recurringIndex = 1; recurringIndex <= (paymentPeriodInMonths/recurringFrequencyInMonths); recurringIndex++)
+		for(int recurringIndex = 1; recurringIndex <= (paymentPeriodInMonths/recurringFrequencyInMonths-1); recurringIndex++)
 		{
-			final InvestmentReturnInfoBean recurringAmountInvestmentInfoBean = cumulativeInterestInvestment(recurringAmount, annualInterestRate, maturityPeriodInMonths-(recurringIndex*recurringFrequencyInMonths), interestPeriodInMonths);
+			totalAmount += recurringAmount;
+			final InvestmentReturnInfoBean recurringAmountInvestmentInfoBean = cumulativeInterestInvestment(totalAmount, annualInterestRate, maturityPeriodInMonths-(recurringIndex*recurringFrequencyInMonths), interestPeriodInMonths);
 			System.out.println(recurringIndex + " Recurring investment info : "+recurringAmountInvestmentInfoBean);
 			totalAmount = totalAmount + recurringAmountInvestmentInfoBean.getMaturityAmount();
 			totalEarnedInterestAmount = totalEarnedInterestAmount + recurringAmountInvestmentInfoBean.getEarnedInterestAmount();
