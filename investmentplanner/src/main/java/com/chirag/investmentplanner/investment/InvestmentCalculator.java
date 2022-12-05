@@ -16,7 +16,7 @@ public class InvestmentCalculator {
 	{
 		int currentTimePeriodInMonths=interestPeriodInMonths;
 		double totalAmount = amount;
-		while(currentTimePeriodInMonths<maturityPeriodInMonths)
+		while(currentTimePeriodInMonths<=maturityPeriodInMonths)
 		{
 			totalAmount = totalAmount + InterestUtility.calculateInterestAmount(InterestUtility.calculateInterestRate(annualInterestRate, interestPeriodInMonths), totalAmount);
 			currentTimePeriodInMonths = currentTimePeriodInMonths + interestPeriodInMonths;
@@ -59,10 +59,14 @@ public class InvestmentCalculator {
 		double totalAmount = initialAmountInvestmentInfoBean.getMaturityAmount();
 		double totalEarnedInterestAmount = initialAmountInvestmentInfoBean.getEarnedInterestAmount();
 		System.out.println("Initial amount investment info : "+initialAmountInvestmentInfoBean);
-		for(int recurringIndex = 1; recurringIndex <= (paymentPeriodInMonths/recurringFrequencyInMonths-1); recurringIndex++)
+		int numOfRecuringPayment = (paymentPeriodInMonths/recurringFrequencyInMonths-1);
+		System.out.println("Number of Recuring Payment : "+numOfRecuringPayment);
+		
+		
+		for(int recurringIndex = 1; recurringIndex <= numOfRecuringPayment; recurringIndex++)
 		{
-			totalAmount += recurringAmount;
-			final InvestmentReturnInfoBean recurringAmountInvestmentInfoBean = cumulativeInterestInvestment(totalAmount, annualInterestRate, maturityPeriodInMonths-(recurringIndex*recurringFrequencyInMonths), interestPeriodInMonths);
+			//totalAmount += recurringAmount;
+			final InvestmentReturnInfoBean recurringAmountInvestmentInfoBean = cumulativeInterestInvestment(recurringAmount, annualInterestRate, maturityPeriodInMonths-(recurringIndex*recurringFrequencyInMonths), interestPeriodInMonths);
 			System.out.println(recurringIndex + " Recurring investment info : "+recurringAmountInvestmentInfoBean);
 			totalAmount = totalAmount + recurringAmountInvestmentInfoBean.getMaturityAmount();
 			totalEarnedInterestAmount = totalEarnedInterestAmount + recurringAmountInvestmentInfoBean.getEarnedInterestAmount();
