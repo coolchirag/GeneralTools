@@ -41,6 +41,7 @@ public class InvestmentCalculator {
 	
 	/**
 	 * This method will calculate investmentReturn for Recurring investment (i.e SIP, LIC policy)
+	 * This algo calculate interest on every recurring payment for remaining maturity period.
 	 * @param initialAmount Amount which you pay at a time of join policy.
 	 * @param recurringAmount Amount which you pay periodically (i.e in LIC you pay 23k)
 	 * @param recurringFrequencyInMonths How frequently you invest (i.e in LIC you pay 23k yearly)
@@ -77,6 +78,7 @@ public class InvestmentCalculator {
 	
 	/**
 	 * This method will calculate investmentReturn for Recurring investment (i.e SIP, LIC policy)
+	 * This algo calculate interest on recurring payment for next recurring payment period only.
 	 * @param initialAmount Amount which you pay at a time of join policy.
 	 * @param recurringAmount Amount which you pay periodically (i.e in LIC you pay 23k)
 	 * @param recurringFrequencyInMonths How frequently you invest (i.e in LIC you pay 23k yearly)
